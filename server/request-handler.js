@@ -15,7 +15,7 @@ var requestHandler = function(request, response) {
   // other than plain text, like JSON or HTML.
   headers['Content-Type'] = "application/json";
 
-  if (request.url === '/classes/messages') {
+  if (request.url === '/classes/messages' || request.url === '/classes/room1') {
     if(request.method === 'POST'){
       var requestBody = '';
       request.on('data', function(chunk){
@@ -24,21 +24,24 @@ var requestHandler = function(request, response) {
       request.on('end', function(){
         responseObj.results.push(JSON.parse(requestBody));
         response.writeHead(201, headers);
-        response.write(JSON.stringify(responseObj));
-        response.end(); 
+        // response.write(JSON.stringify(responseObj));
+        response.end(JSON.stringify(responseObj)); 
       });
     }
     if(request.method === 'GET') {
       response.writeHead(200, headers);
-      response.write(JSON.stringify(responseObj));
-      response.end(); 
+      console.log('writeHead')
+     // response.write(JSON.stringify(responseObj));
+      console.log('write')
+      response.end(JSON.stringify(responseObj)); 
+      console.log('after end')
     }
   } else {
       response.writeHead(404, headers);
-      response.write('not found! what!!!???? what are you looking for?!?!?!');
-      response.end(); 
+      // response.write('not found! what!!!???? what are you looking for?!?!?!');
+      response.end('not found! what!!!???? what are you looking for?!?!?!'); 
   }
-
+  console.log('sad;lfh;sadljgh;sdlakghj;sadlkghj;salkhg;asldhg')
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -58,3 +61,4 @@ var defaultCorsHeaders = {
 };
 
 exports.requestHandler = requestHandler;
+
